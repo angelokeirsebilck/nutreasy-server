@@ -1,4 +1,4 @@
-# Descrition
+# Description
 
 Nutreasy app server.
 
