@@ -4,7 +4,8 @@
   "description": "Express server for Nutreasy React Native App",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index"
   },
   "author": "Angelo Keirsebilck",
   "license": "ISC",
@@ -15,5 +16,8 @@
     "express-validator": "^6.9.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

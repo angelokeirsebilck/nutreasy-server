@@ -1,23 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
+const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-// const auth = require('../../middleware/auth');
+const bcrypt = require('bcryptjs');
+const { check, validationResult } = require('express-validator/check');
 
-const User = require('../../models/User');
+// @route   GET api/auth
+// @desc    Get authenticated user
+// @access  Public
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.status(200).send(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Server Error');
+  }
+});
 
-// @route   POST api/users
-// @desc    Register user
+// @route   POST api/auth
+// @desc    Authenticate user and get token
 // @access  Public
 router.post(
   '/',
   [
     check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Please enter a password with 6 or more characters').isLength({
-      min: 6,
-    }),
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -35,22 +45,19 @@ router.post(
         email,
       });
 
-      if (user) {
+      if (!user) {
         return res.status(400).send({
-          errors: [{ msg: 'User already exist.' }],
+          errors: [{ msg: 'Invalid credentials.' }],
         });
       }
 
-      user = new User({
-        email,
-        password,
-      });
+      const isMatch = await bcrypt.compare(password, user.password);
 
-      const salt = await bcrypt.genSalt(10);
-
-      user.password = await bcrypt.hash(password, salt);
-
-      await user.save();
+      if (!isMatch) {
+        return res.status(400).send({
+          errors: [{ msg: 'Invalid credentials.' }],
+        });
+      }
 
       const payload = {
         user: {
