@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://nutreasy:ic9uRTQAa1fLGa5f@cluster0.ldiqx.mongodb.net/nutreasy?retryWrites=true&w=majority",
-  "jwtSecret": "Myjwtsecretsignaturefordevconnector"
-}
