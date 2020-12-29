@@ -5,49 +5,42 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
-  settings: {
-    macros: {
-      calories: {
-        type: Number,
-        default: 2000,
-        required: true,
-      },
-      protein: {
-        type: Number,
-        default: 150,
-        required: true,
-      },
-      fat: {
-        type: Number,
-        default: 150,
-        required: true,
-      },
-      carbohydrates: {
-        type: Number,
-        default: 120,
-        required: true,
-      },
+  gender: {
+    type: String,
+    default: 'male',
+    required: true,
+  },
+  height: {
+    type: Number,
+    default: 180,
+    required: true,
+  },
+  weight: {
+    type: Number,
+    default: 75,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
+  activityLevel: {
+    type: Number,
+    required: true,
+  },
+  BMR: {
+    type: Number,
+  },
+  goals: {
+    steps: {
+      type: Number,
+      default: 10000,
+      required: true,
     },
-    goals: {
-      steps: {
-        type: Number,
-        default: 10000,
-        required: true,
-      },
-      water: {
-        type: Number,
-        default: 6,
-        required: true,
-      },
-    },
-    preferences: {
-      metrics: {
-        weight: {
-          type: String,
-          default: 'kg',
-          required: true,
-        },
-      },
+    water: {
+      type: Number,
+      default: 6,
+      required: true,
     },
   },
 });
