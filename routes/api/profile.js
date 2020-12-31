@@ -42,6 +42,8 @@ router.post(
       check('weight', 'Skills is required').not().isEmpty(),
       check('age', 'Skills is required').not().isEmpty(),
       check('activityLevel', 'Skills is required').not().isEmpty(),
+      check('heightUnit', 'Skills is required').not().isEmpty(),
+      check('weightUnit', 'Skills is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -54,7 +56,7 @@ router.post(
     }
 
     // destructure the request
-    const { gender, height, weight, age, activityLevel } = req.body;
+    const { gender, height, weight, age, activityLevel, heightUnit, weightUnit } = req.body;
 
     // Build profile object
     const profileFields = {};
@@ -64,6 +66,8 @@ router.post(
     if (weight) profileFields.weight = weight;
     if (age) profileFields.age = age;
     if (activityLevel) profileFields.activityLevel = activityLevel;
+    if (heightUnit) profileFields.heightUnit = heightUnit;
+    if (weightUnit) profileFields.weightUnit = weightUnit;
 
     try {
       let profile = await Profile.findOne({

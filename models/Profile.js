@@ -15,9 +15,19 @@ const ProfileSchema = new mongoose.Schema({
     default: 180,
     required: true,
   },
+  heightUnit: {
+    type: String,
+    default: 'cm',
+    required: true,
+  },
   weight: {
     type: Number,
     default: 75,
+    required: true,
+  },
+  weightUnit: {
+    type: String,
+    default: 'kg',
     required: true,
   },
   age: {
