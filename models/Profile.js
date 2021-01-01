@@ -52,6 +52,33 @@ const ProfileSchema = new mongoose.Schema({
       default: 6,
       required: true,
     },
+    weight: {
+      type: String,
+      default: 'maintain',
+      required: true,
+    },
+  },
+  dietPlan: {
+    type: String,
+    default: 'standard',
+    required: true,
+  },
+  macroNutrients: {
+    carbs: {
+      type: Number,
+      default: 50,
+      required: true,
+    },
+    protrein: {
+      type: Number,
+      default: 25,
+      required: true,
+    },
+    fat: {
+      type: Number,
+      default: 25,
+      required: true,
+    },
   },
 });
 

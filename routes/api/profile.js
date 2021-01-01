@@ -37,13 +37,16 @@ router.post(
   [
     auth,
     [
-      check('gender', 'Status is required.').not().isEmpty(),
-      check('height', 'Skills is required').not().isEmpty(),
-      check('weight', 'Skills is required').not().isEmpty(),
-      check('age', 'Skills is required').not().isEmpty(),
-      check('activityLevel', 'Skills is required').not().isEmpty(),
-      check('heightUnit', 'Skills is required').not().isEmpty(),
-      check('weightUnit', 'Skills is required').not().isEmpty(),
+      check('gender', 'Gender is required.').not().isEmpty(),
+      check('height', 'Height is required').not().isEmpty(),
+      check('weight', 'Weight is required').not().isEmpty(),
+      check('age', 'age is required').not().isEmpty(),
+      check('activityLevel', 'activityLevel is required').not().isEmpty(),
+      check('heightUnit', 'heightUnit is required').not().isEmpty(),
+      check('weightUnit', 'weightUnit is required').not().isEmpty(),
+      check('dietPlan', 'dietPlan is required').not().isEmpty(),
+      check('weightGoal', 'weightGoal is required').not().isEmpty(),
+      check('macroNutrients', 'macroNutrients is required').not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -56,7 +59,18 @@ router.post(
     }
 
     // destructure the request
-    const { gender, height, weight, age, activityLevel, heightUnit, weightUnit } = req.body;
+    const {
+      gender,
+      height,
+      weight,
+      age,
+      activityLevel,
+      heightUnit,
+      weightUnit,
+      weightGoal,
+      macroNutrients,
+      dietPlan,
+    } = req.body;
 
     // Build profile object
     const profileFields = {};
@@ -68,6 +82,9 @@ router.post(
     if (activityLevel) profileFields.activityLevel = activityLevel;
     if (heightUnit) profileFields.heightUnit = heightUnit;
     if (weightUnit) profileFields.weightUnit = weightUnit;
+    if (weightGoal) profileFields.goals.weight = weightGoal;
+    if (macroNutrients) profileFields.macroNutrients = macroNutrients;
+    if (dietPlan) profileFields.dietPlan = dietPlan;
 
     try {
       let profile = await Profile.findOne({
