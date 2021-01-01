@@ -69,7 +69,7 @@ const ProfileSchema = new mongoose.Schema({
       default: 50,
       required: true,
     },
-    protrein: {
+    protein: {
       type: Number,
       default: 25,
       required: true,
