@@ -71,9 +71,10 @@ router.post(
       macroNutrients,
       dietPlan,
     } = req.body;
+    let goals = {};
 
     // Build profile object
-    const profileFields = {};
+    const profileFields = { goals };
     profileFields.user = req.user.id;
     if (gender) profileFields.gender = gender;
     if (height) profileFields.height = height;
