@@ -150,4 +150,36 @@ router.post(
   }
 );
 
+// @route   GET api/food
+// @desc    Get all own food for current user
+// @access  Private
+router.get('/', auth, async (req, res) => {
+  try {
+    const ownFood = await Food.find({
+      user: req.user.id,
+    });
+
+    res.send(ownFood);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/food/favorite
+// @desc    Get all favorite food for current user
+// @access  Private
+router.get('/favorite', auth, async (req, res) => {
+  try {
+    const favoFood = await Food.find({
+      user: req.user.id,
+      favorite: true,
+    });
+    res.send(favoFood);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
