@@ -11,9 +11,9 @@ router.patch(
   '/:id',
   [
     auth,
-    check('id', 'id is required.').not().isEmpty(),
     check('name', 'name is required.').not().isEmpty(),
     check('measurement_description', 'measurement_description is required').not().isEmpty(),
+    check('calories', 'calories is required').not().isEmpty(),
     check('number_of_units', 'number_of_units is required').not().isEmpty(),
     check('carbohydrate', 'carbohydrate is required').not().isEmpty(),
     check('protein', 'protein is required').not().isEmpty(),
@@ -31,11 +31,12 @@ router.patch(
       });
     }
 
-    // destructure the request
+    // Destructure the request
     const {
       name,
       measurement_description,
       number_of_units,
+      calories,
       carbohydrate,
       protein,
       fat,
@@ -53,6 +54,7 @@ router.patch(
     if (protein) foodFields.protein = protein;
     if (fat) foodFields.fat = fat;
     if (favorite) foodFields.favorite = favorite;
+    if (calories) foodFields.calories = calories;
 
     try {
       let food = Food.findById(id);
@@ -87,6 +89,7 @@ router.post(
     auth,
     check('name', 'name is required.').not().isEmpty(),
     check('measurement_description', 'measurement_description is required').not().isEmpty(),
+    check('calories', 'calories is required').not().isEmpty(),
     check('number_of_units', 'number_of_units is required').not().isEmpty(),
     check('carbohydrate', 'carbohydrate is required').not().isEmpty(),
     check('protein', 'protein is required').not().isEmpty(),
@@ -106,6 +109,7 @@ router.post(
       name,
       measurement_description,
       number_of_units,
+      calories,
       carbohydrate,
       protein,
       fat,
@@ -123,6 +127,7 @@ router.post(
     if (protein) foodFields.protein = protein;
     if (fat) foodFields.fat = fat;
     if (favorite) foodFields.favorite = favorite;
+    if (calories) foodFields.calories = calories;
 
     try {
       let food = await Food.findOne({
