@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
+var request = require('request');
+clientID = '03f7fe9b4d0244da8a5bb18afc584650';
+clientSecret = 'ebe7115fd9914297a41ebe70256ffc84';
 
 // @route   GET api/auth
 // @desc    Get authenticated user
@@ -14,6 +17,38 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.status(200).send(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/auth/fat
+// @desc    Get fatSecret access_token
+// @access  Private
+router.get('/fat', auth, async (req, res) => {
+  try {
+    var options = {
+      method: 'POST',
+      url: 'https://oauth.fatsecret.com/connect/token',
+      method: 'POST',
+      auth: {
+        user: clientID,
+        password: clientSecret,
+      },
+      headers: { 'content-type': 'application/json' },
+      form: {
+        grant_type: 'client_credentials',
+        scope: 'basic',
+      },
+      json: true,
+    };
+
+    request(options, function (error, response, body) {
+      if (error) throw new Error(error);
+
+      res.send(body.access_token);
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server Error');
