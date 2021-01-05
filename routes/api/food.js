@@ -53,7 +53,7 @@ router.patch(
     if (protein) foodFields.protein = protein;
     if (protein) foodFields.protein = protein;
     if (fat) foodFields.fat = fat;
-    if (favorite) foodFields.favorite = favorite;
+    if (typeof favorite != 'undefined') foodFields.favorite = favorite;
     if (calories) foodFields.calories = calories;
 
     try {
@@ -126,7 +126,7 @@ router.post(
     if (protein) foodFields.protein = protein;
     if (protein) foodFields.protein = protein;
     if (fat) foodFields.fat = fat;
-    if (favorite) foodFields.favorite = favorite;
+    if (typeof favorite != 'undefined') foodFields.favorite = favorite;
     if (calories) foodFields.calories = calories;
 
     try {
