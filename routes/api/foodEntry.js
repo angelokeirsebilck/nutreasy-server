@@ -123,7 +123,7 @@ router.post(
 // @route   GET api/foodEntry
 // @desc    Get foodEntries for specific day
 // @access  Private
-router.post('/', auth, async (req, res) => {
+router.post('/day', auth, async (req, res) => {
   // Destructure the request
   const { date } = req.body;
   //   let formatDate = moment(date, 'YYYY-MM-DD')
