@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Food = require('../../models/Food');
 const FoodEntry = require('../../models/FoodEntry');
+const moment = require('moment');
 
 // @route   POST api/foodEntry
 // @desc    Create/Update food entry for current loggedin user for a specific time of day (breakfast, lunc, dinner, snack)
@@ -26,11 +27,17 @@ router.post(
 
     // Destructure the request
     const { date, food } = req.body;
+    let formatDate = moment(date, 'YYYY-MM-DD')
+      .minute(0)
+      .hour(0)
+      .seconds(0)
+      .millisecond(0)
+      .utcOffset('+00:00');
 
     // Build food object
     const foodEntryFields = {};
     foodEntryFields.user = req.user.id;
-    if (date) foodEntryFields.date = date;
+    if (formatDate) foodEntryFields.date = formatDate;
     if (food) foodEntryFields.food = food;
 
     try {
@@ -125,15 +132,21 @@ router.post(
 router.get('/', auth, async (req, res) => {
   // Destructure the request
   const { date } = req.body;
+  let formatDate = moment(date, 'YYYY-MM-DD')
+    .minute(0)
+    .hour(0)
+    .seconds(0)
+    .millisecond(0)
+    .utcOffset('+00:00');
 
   try {
     const foodEntry = await FoodEntry.findOne({
       user: req.user.id,
-      date,
+      date: formatDate,
     })
       .populate({
         path: 'food.breakfast.foodItem',
-        model: ['food'],
+        model: 'food',
       })
       .populate({
         path: 'food.lunch.foodItem',
