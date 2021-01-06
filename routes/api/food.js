@@ -183,7 +183,7 @@ router.get('/favorite', auth, async (req, res) => {
     res.send(favoFood);
   } catch (error) {
     console.log(error.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error', error.message);
   }
 });
 
