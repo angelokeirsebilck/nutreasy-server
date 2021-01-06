@@ -27,17 +27,11 @@ router.post(
 
     // Destructure the request
     const { date, food } = req.body;
-    let formatDate = moment(date, 'YYYY-MM-DD')
-      .minute(0)
-      .hour(0)
-      .seconds(0)
-      .millisecond(0)
-      .utcOffset('+00:00');
 
     // Build food object
     const foodEntryFields = {};
     foodEntryFields.user = req.user.id;
-    if (formatDate) foodEntryFields.date = formatDate;
+    if (date) foodEntryFields.date = date;
     if (food) foodEntryFields.food = food;
 
     try {
@@ -132,17 +126,17 @@ router.post(
 router.get('/', auth, async (req, res) => {
   // Destructure the request
   const { date } = req.body;
-  let formatDate = moment(date, 'YYYY-MM-DD')
-    .minute(0)
-    .hour(0)
-    .seconds(0)
-    .millisecond(0)
-    .utcOffset('+00:00');
+  //   let formatDate = moment(date, 'YYYY-MM-DD')
+  //     .minute(0)
+  //     .hour(0)
+  //     .seconds(0)
+  //     .millisecond(0)
+  //     .utcOffset('+00:00');
 
   try {
     const foodEntry = await FoodEntry.findOne({
       user: req.user.id,
-      date: formatDate,
+      date: date,
     })
       .populate({
         path: 'food.breakfast.foodItem',
