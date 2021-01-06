@@ -6,7 +6,7 @@ const FoodEntrySchema = new mongoose.Schema({
     ref: 'user',
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
   food: {
