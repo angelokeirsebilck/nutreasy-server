@@ -65,6 +65,38 @@ const FoodEntrySchema = new mongoose.Schema({
       },
     ],
   },
+  skip: {
+    skipBreakfast: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    skipLunch: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    skipDinner: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    skipSnack1: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    skipSnack2: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    skipSnack3: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
 });
 
 module.exports = FoodEntry = mongoose.model('foodEntry', FoodEntrySchema);
