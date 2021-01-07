@@ -17,6 +17,11 @@ const FoodEntrySchema = new mongoose.Schema({
           ref: 'food',
           required: true,
         },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     lunch: [
@@ -25,6 +30,11 @@ const FoodEntrySchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'food',
           required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
         },
       },
     ],
@@ -35,6 +45,11 @@ const FoodEntrySchema = new mongoose.Schema({
           ref: 'food',
           required: true,
         },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     snack1: [
@@ -43,6 +58,11 @@ const FoodEntrySchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'food',
           required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
         },
       },
     ],
@@ -53,6 +73,11 @@ const FoodEntrySchema = new mongoose.Schema({
           ref: 'food',
           required: true,
         },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     snack3: [
@@ -61,6 +86,11 @@ const FoodEntrySchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'food',
           required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+          default: 1,
         },
       },
     ],
