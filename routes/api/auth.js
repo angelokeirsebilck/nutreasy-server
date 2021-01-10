@@ -44,7 +44,9 @@ router.get('/fat', auth, async (req, res) => {
       json: true,
     };
 
-    request(options, function (error, response, body) {
+    const fixieRequest = request.defaults({ proxy: process.env.FIXIE_URL });
+
+    fixieRequest(options, function (error, response, body) {
       if (error) throw new Error(error);
 
       res.send(body.access_token);
