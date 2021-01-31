@@ -157,6 +157,78 @@ router.post(
     }
 );
 
+// @route   POST api/foodSearch
+// @desc    Add food for current logged in user
+// @access  Private
+router.post(
+    '/foodSearch',
+    [
+        auth,
+        check('name', 'name is required.').not().isEmpty(),
+        check('measurement_description', 'measurement_description is required').not().isEmpty(),
+        check('calories', 'calories is required').not().isEmpty(),
+        check('number_of_units', 'number_of_units is required').not().isEmpty(),
+        check('carbohydrate', 'carbohydrate is required').not().isEmpty(),
+        check('protein', 'protein is required').not().isEmpty(),
+        check('fat', 'fat is required').not().isEmpty(),
+        check('searchId', 'searchId is required').not().isEmpty(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).send({
+                errors: errors.array(),
+            });
+        }
+
+        // Destructure the request
+        const {
+            name,
+            measurement_description,
+            number_of_units,
+            calories,
+            carbohydrate,
+            protein,
+            fat,
+            favorite,
+            searchId,
+        } = req.body;
+
+        // Build food object
+        const foodFields = {};
+        foodFields.user = req.user.id;
+        if (name) foodFields.name = name;
+        if (measurement_description) foodFields.measurement_description = measurement_description;
+        if (number_of_units) foodFields.number_of_units = number_of_units;
+        if (carbohydrate) foodFields.carbohydrate = carbohydrate;
+        if (protein) foodFields.protein = protein;
+        if (fat) foodFields.fat = fat;
+        if (typeof favorite != 'undefined') foodFields.favorite = favorite;
+        if (calories) foodFields.calories = calories;
+        foodFields.search = true;
+        if (searchId) foodFields.searchId = searchId;
+
+        try {
+            let food = await Food.findOne({
+                user: req.user.id,
+                name,
+                search: true,
+            });
+            if (food) {
+                return res.send(food);
+            }
+
+            food = new Food(foodFields);
+            await food.save();
+            return res.send(food);
+        } catch (error) {
+            console.log(error.message);
+            res.status(500).send('Server Error');
+        }
+    }
+);
+
 // @route   GET api/food
 // @desc    Get all own food for current user
 // @access  Private
