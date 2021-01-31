@@ -4,6 +4,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 const Food = require('../../models/Food');
 const axios = require('axios');
+var request = require('request');
 
 // @route   PATCH api/food
 // @desc    Update Food
@@ -196,20 +197,21 @@ router.post(
     [auth, check('searchString').not().isEmpty(), check('token').not().isEmpty()],
     async (req, res) => {
         const { token, searchString } = req.body;
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
         try {
-            const result = await axios.get(
-                `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${searchString}&format=json`,
-                config
-            );
+            var options = {
+                method: 'GET',
+                url: `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${searchString}&format=json`,
+                headers: { Authorization: `Bearer ${token}` },
+                json: true,
+            };
 
-            res.send(result.data);
+            const fixieRequest = await request.defaults({ proxy: process.env.FIXIE_URL });
+
+            fixieRequest(options, function (error, response, body) {
+                if (error) throw new Error(error);
+
+                res.send(body);
+            });
         } catch (error) {
             console.log(error.message);
             res.status(500).send('Server Error', error.message);
@@ -225,20 +227,21 @@ router.post(
     [auth, check('id').not().isEmpty(), check('token').not().isEmpty()],
     async (req, res) => {
         const { token, id } = req.body;
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
         try {
-            const result = await axios.get(
-                `https://platform.fatsecret.com/rest/server.api?method=food.get.v2&food_id=${id}&format=json`,
-                config
-            );
+            var options = {
+                method: 'GET',
+                url: `https://platform.fatsecret.com/rest/server.api?method=food.get.v2&food_id=${id}&format=json`,
+                headers: { Authorization: `Bearer ${token}` },
+                json: true,
+            };
 
-            res.send(result.data);
+            const fixieRequest = await request.defaults({ proxy: process.env.FIXIE_URL });
+
+            fixieRequest(options, function (error, response, body) {
+                if (error) throw new Error(error);
+
+                res.send(body);
+            });
         } catch (error) {
             console.log(error.message);
             res.status(500).send('Server Error', error.message);
